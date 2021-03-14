@@ -11,3 +11,40 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+table {
+  width:60%;
+  margin-left: 10%;
+}
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+th, td {
+  padding: 15px;
+  text-align: left;
+}
+#t01 tr:nth-child(even) {
+  background-color: #eee;
+}
+#t01 tr:nth-child(odd) {
+ background-color: #fff;
+}
+#t01 th {
+  background-color: black;
+  color: white;
+}
+
+button{
+  background: none;
+  border: none;
+  float: left;
+  color: red;
+  font-weight: 800;
+  font-size: 30px;
+  cursor: pointer;
+}
+
+button:hover{
+  background-color: white;
+}
