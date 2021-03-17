@@ -25,10 +25,15 @@ class App extends Component {
     try {
       fetch(this.requestUrl) //default Request = GET Rerquest
         .then(response => response.json())
-        .then(data => this.setState({
-          isLoading: false,
-          dataSource: JSON.parse(data.body).Items.sort((a, b) => a.Id > b.Id ? 1 : -1),
-        }))
+        .then(data => {
+          const onlyIds = JSON.parse(data.body).Items.map(item => item.Id).sort((a, b) => a - b);
+          console.log(onlyIds);
+          this.setState({
+            isLoading: false,
+            dataSource: JSON.parse(data.body).Items.sort((a, b) => a.Id > b.Id ? 1 : -1),
+            nextId: parseInt(onlyIds[onlyIds.length - 1]) + 1
+          })
+        })
     } catch (error) {
       console.error(error);
     }
@@ -100,11 +105,8 @@ class App extends Component {
               <th>Tierart</th>
               <th>Aktion</th>
             </tr>
-            {dataSource.sort((a, b) => a.Id > b.Id ? 1 : -1).map(data =>
+            {dataSource.map(data =>
               <tr>
-                {this.setState({
-                  nextId: data.Id
-                })}
                 <td>{data.Id}</td>
                 <td>{data.Name}</td>
                 <td>{data.Tierart}</td>
