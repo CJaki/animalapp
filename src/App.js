@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import { GiTrashCan } from 'react-icons/gi';
+import { GiTrashCan } from 'react-icons/gi'; //Icon
 
 
 class App extends Component {
@@ -20,14 +20,14 @@ class App extends Component {
 
     this.requestUrl = 'https://1w8740af1c.execute-api.eu-central-1.amazonaws.com/Test';
   }
+  //wird bei Website-Aufruf direkt ausgeführt
   async componentDidMount() {
     try {
-      fetch(this.requestUrl)
+      fetch(this.requestUrl) //default Request = GET Rerquest
         .then(response => response.json())
         .then(data => this.setState({
           isLoading: false,
-          dataSource: JSON.parse(data.body).Items,
-          nextId: JSON.parse(data.body).Items.length + 1
+          dataSource: JSON.parse(data.body).Items.sort((a, b) => a.Id > b.Id ? 1 : -1),
         }))
     } catch (error) {
       console.error(error);
@@ -54,7 +54,7 @@ class App extends Component {
     };
 
     try {
-      fetch(this.requestUrl + '?name=' + this.state.name + '&kind=' + this.state.kind + '&id=' + this.state.nextId, requestOptions)
+      fetch(this.requestUrl + '?name=' + this.state.name + '&kind=' + this.state.kind + '&id=' + this.state.nextId, requestOptions) //POST Request mit Request params
         .then(response => response.json())
         .then(data => window.location.reload())
     } catch (error) {
@@ -76,7 +76,7 @@ class App extends Component {
     };
 
     try {
-      fetch(this.requestUrl + '?id=' + id, requestOptions)
+      fetch(this.requestUrl + '?id=' + id, requestOptions) //DELETE Request mit request param
         .then(response => response.json())
         .then(data => window.location.reload())
     } catch (error) {
@@ -102,6 +102,9 @@ class App extends Component {
             </tr>
             {dataSource.sort((a, b) => a.Id > b.Id ? 1 : -1).map(data =>
               <tr>
+                {this.setState({
+                  nextId: data.Id
+                })}
                 <td>{data.Id}</td>
                 <td>{data.Name}</td>
                 <td>{data.Tierart}</td>
